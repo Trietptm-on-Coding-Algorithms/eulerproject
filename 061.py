@@ -36,17 +36,13 @@ tris = seqmaker(999,9999,triangle)
 
 res = []   
 for octn in octs:
-    pplist = []
+
     setlist = [heps,hexs,pens,squs,tris]
     setviewed = [octs]
     cyclic = [octn]
-    for lists in setlist:
-        if lists in setviewed:
-            continue
-        for p in searchcli(octn,lists):
-            pplist.append((p,setviewed[:]+[lists],cyclic[:]+[p]))
-
-    for i in range(4):
+    pplist = [(octn,setviewed[:],cyclic[:])]
+    
+    for i in range(5):
         ppplist = pplist[:]
         pplist =[]
         for p in ppplist:
