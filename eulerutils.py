@@ -93,6 +93,18 @@ def gcd(a,b):
 def lcm(m,n):
     return m*n/gcd(m,n)
 
+def seqmaker(lower,upper,func,start=0):
+    n=start
+    seq=[]
+    while True:
+        n+=1
+        tmp = func(n)
+        if tmp > upper:
+            return seq
+        if tmp > lower:
+            seq.append(tmp)
+    return seq
+
 if __name__ == '__main__':
     print 'Isprime: 19,',isprime(19)
     print 'divisors: 220,',divisors(220)
