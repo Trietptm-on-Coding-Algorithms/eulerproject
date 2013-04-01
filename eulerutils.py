@@ -46,6 +46,9 @@ def ispandigital(n):
     s = str(n)
     return sorted((int(i) for i in s)) == sorted(xrange(1,len(s)+1))
 
+def ispermutation(n,m):
+    return sorted(str(n)) == sorted(str(m))
+
 def ispalindrome(n):
     s = str(n)
     ln = len(s)
@@ -111,4 +114,5 @@ if __name__ == '__main__':
     print 'd(220):',d(220)
     print 'ispalindrome(7337):',ispalindrome(7337)
     print 'gcds',gcd(999,333),gcd(97,13),gcd(88,122),gcd(12,9)
+    print 'ispermutation',ispermutation(87109,79180)
 
