@@ -24,7 +24,7 @@ def isprime(x):
         if x % i == 0:
             return False
     return True
-
+        
 def genprime():
     try:
         from SMALLPRIMES import SMALLPRIMESET
@@ -108,6 +108,53 @@ def seqmaker(lower,upper,func,start=0):
             seq.append(tmp)
     return seq
 
+class PrimesUtils:
+    def __init__(self,upper=2000000):
+        sieve = [0]*(upper+1)
+        sieve[0] = 0
+        sieve[1] = 0
+        for i in xrange(2,int(upper**.5)+1):
+            if sieve[i] == 0:
+                s=i+i
+                while s<=upper:
+                    sieve[s] = 1
+                    s+=i
+        self.sieve = sieve
+
+    def isPrime(self,n):
+        if n<2:
+            return False
+        return self.sieve[n] == 0
+
+    def genPrime(self):
+        i = 2
+        while True:
+            if self.sieve[i] == 0:
+                yield i
+            i+=1
+
+    def primefactors(self,x,ct=False):
+        res = []
+        gp = self.genPrime()
+        while x!=1:
+            p = gp.next()
+            if x%p==0:
+                cnt = 0
+                while x%p == 0:
+                    cnt += 1
+                    x/=p
+                if ct:
+                    res.append((p,cnt))
+                else:
+                    res.append(p)
+                if self.isPrime(x):
+                    if ct:
+                        res.append((x,1))
+                    else:
+                        res.append(x)
+                    break
+        return res
+
 if __name__ == '__main__':
     print 'Isprime: 19,',isprime(19)
     print 'divisors: 220,',divisors(220)
@@ -115,4 +162,20 @@ if __name__ == '__main__':
     print 'ispalindrome(7337):',ispalindrome(7337)
     print 'gcds',gcd(999,333),gcd(97,13),gcd(88,122),gcd(12,9)
     print 'ispermutation',ispermutation(87109,79180)
+    pu = PrimesUtils(20000)
+    limit = 10000
+    gp = pu.genPrime()
+    gp2 = pu.genPrime()
+    p = 0
+    while p < limit:
+        p = gp.next()
+        p2 = gp2.next()
+        if p!=p2:
+            print 'wrong'
+            break
+    for i in range(2,8888):
+        if primefactors(i) != pu.primefactors(i):
+            print 'p wrong'
+            print i, primefactors(i,True),pu.primefactors(i,True)
+            break
 
