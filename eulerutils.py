@@ -109,7 +109,7 @@ def seqmaker(lower,upper,func,start=0):
     return seq
 
 class PrimesUtils:
-    def __init__(self,upper=2000000):
+    def __init__(self,upper=1000000):
         sieve = [0]*(upper+1)
         sieve[0] = 0
         sieve[1] = 0
@@ -120,8 +120,11 @@ class PrimesUtils:
                     sieve[s] = 1
                     s+=i
         self.sieve = sieve
+        self.upper = upper
 
     def isPrime(self,n):
+        if n > self.upper:
+            self.__init__(2*self.upper)
         if n<2:
             return False
         return self.sieve[n] == 0
@@ -129,6 +132,8 @@ class PrimesUtils:
     def genPrime(self):
         i = 2
         while True:
+            if i > self.upper:
+                self.__init__(2*self.upper)
             if self.sieve[i] == 0:
                 yield i
             i+=1
@@ -162,9 +167,9 @@ if __name__ == '__main__':
     print 'ispalindrome(7337):',ispalindrome(7337)
     print 'gcds',gcd(999,333),gcd(97,13),gcd(88,122),gcd(12,9)
     print 'ispermutation',ispermutation(87109,79180)
-    pu = PrimesUtils(20000)
+    pu = PrimesUtils()
     limit = 10000
-    gp = pu.genPrime()
+    gp = genprime()
     gp2 = pu.genPrime()
     p = 0
     while p < limit:
@@ -172,10 +177,5 @@ if __name__ == '__main__':
         p2 = gp2.next()
         if p!=p2:
             print 'wrong'
-            break
-    for i in range(2,8888):
-        if primefactors(i) != pu.primefactors(i):
-            print 'p wrong'
-            print i, primefactors(i,True),pu.primefactors(i,True)
             break
 
