@@ -70,6 +70,12 @@ def divisors(x):
 @memo
 def primefactors(x,ct=False):
     res = []
+    if isprime(x):
+        if ct:
+            return [(x,1)]
+        else:
+            return [x]
+
     gp = genprime()
     while x!=1:
         p = gp.next()
@@ -82,6 +88,12 @@ def primefactors(x,ct=False):
                 res.append((p,cnt))
             else:
                 res.append(p)
+            if isprime(x):
+                if ct:
+                    res.append((x,1))
+                else:
+                    res.append(x)
+                break
     return res
 
 @memo
@@ -140,6 +152,11 @@ class PrimesUtils:
 
     def primefactors(self,x,ct=False):
         res = []
+        if self.isPrime(x):
+            if ct:
+                return [(x,1)]
+            else:
+                return [x]
         gp = self.genPrime()
         while x!=1:
             p = gp.next()
@@ -167,7 +184,7 @@ if __name__ == '__main__':
     print 'ispalindrome(7337):',ispalindrome(7337)
     print 'gcds',gcd(999,333),gcd(97,13),gcd(88,122),gcd(12,9)
     print 'ispermutation',ispermutation(87109,79180)
-    pu = PrimesUtils()
+    pu = PrimesUtils(100000)
     limit = 10000
     gp = genprime()
     gp2 = pu.genPrime()
@@ -178,4 +195,14 @@ if __name__ == '__main__':
         if p!=p2:
             print 'wrong'
             break
+    else:
+        print 'genprime right'
+
+    for i in xrange(2,88):
+        if primefactors(i) != pu.primefactors(i):
+            print 'wrong'
+    else:
+        print 'primefactors right'
+
+    print primefactors(21),pu.primefactors(21)
 
